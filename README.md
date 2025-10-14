@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 AI College Finder - RAG Implementation
 
-## Getting Started
+A sophisticated Next.js application demonstrating a complete Retrieval-Augmented Generation (RAG) pipeline for intelligent college recommendations. Built for the MatchToCollege Founding Full-Stack Engineer position.
 
-First, run the development server:
+## 🚀 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](your-vercel-link-here)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📋 Assignment Implementation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ✅ **Requirements Fulfilled**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Requirement             | Status      | Implementation Details                                     |
+| ----------------------- | ----------- | ---------------------------------------------------------- |
+| **UI with Search**      | ✅ Complete | Professional Tailwind CSS interface with responsive design |
+| **API Route**           | ✅ Complete | Next.js App Router with proper RESTful design              |
+| **Mock Data Retrieval** | ✅ Complete | Smart filtering across 7+ college attributes               |
+| **AI Augmentation**     | ✅ Complete | Gemini API integration with context injection              |
+| **Streaming Response**  | ✅ Complete | Real-time word-by-word streaming implementation            |
 
-## Learn More
+## 🎯 Features
 
-To learn more about Next.js, take a look at the following resources:
+- **RAG Pipeline**: Retrieve relevant college data + Generate AI responses
+- **Real-time Streaming**: Live AI response display
+- **Smart Filtering**: Context-aware college matching
+- **Clean UI**: Professional, responsive design with Tailwind CSS
+- **Error Handling**: Robust error management and user feedback
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **AI/ML**: Google Gemini Pro
+- **Deployment**: Vercel
+- **Architecture**: RAG (Retrieval-Augmented Generation)
 
-## Deploy on Vercel
+## 🚀 Quick Start
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Prerequisites
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Node.js 18 or later
+- npm or yarn
+
+### Installation & Running
+
+1. **Clone, Install and Run**
+   ```bash
+   git clone <your-repo>
+   cd ai-college-finder
+   npm install
+   npm run dev
+   or yarn dev
+   ```

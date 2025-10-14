@@ -4,7 +4,7 @@ A sophisticated Next.js application demonstrating a complete Retrieval-Augmented
 
 ## 🚀 Live Demo
 
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](your-vercel-link-here)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://ai-college-finder.vercel.app/)
 
 ## 📋 Assignment Implementation
 

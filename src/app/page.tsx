@@ -15,8 +15,6 @@ export default function Home() {
     setError("");
 
     try {
-      console.log("📤 Sending request...");
-
       const apiResponse = await fetch("/api/college-finder", {
         method: "POST",
         headers: {
@@ -24,8 +22,6 @@ export default function Home() {
         },
         body: JSON.stringify({ query }),
       });
-
-      console.log("📥 Response status:", apiResponse.status);
 
       if (!apiResponse.ok) {
         throw new Error(
@@ -57,7 +53,6 @@ export default function Home() {
           ? err.message
           : "An error occurred while searching for colleges.";
       setError(errorMessage);
-      console.error("🔴 Search error:", err);
     } finally {
       setLoading(false);
     }

@@ -165,6 +165,20 @@
 import { NextRequest } from "next/server";
 import { mockColleges } from "@/lib/mockData";
 
+interface College {
+  name: string;
+  location: string;
+  rating: number;
+  fees: string;
+  courses: string[];
+  highlights: string[];
+}
+
+interface Props {
+  query: string;
+  colleges: College[];
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { query } = await request.json();
@@ -317,34 +331,145 @@ async function callGeminiAPI(
   }
 }
 
+// async function callGeminiAPI(
+//   query: string,
+//   colleges: typeof mockColleges,
+// ): Promise<string> {
+//   // CASE 1: LOCAL DATA MATCH
+//   // If 'colleges' has data, it means your filtering in the POST function
+//   // already found a match (like "Delhi") in mockData.
+//   if (colleges.length > 0) {
+//     let response = `### 🎓 Results found in our Local Database for "${query}"\n`;
+//     response += `*I've found ${colleges.length} verified institutions matching your request.*\n\n---\n\n`;
+
+//     colleges.forEach((c) => {
+//       response += `### 🏫 ${c.name}\n`;
+//       response += `**ID:** \`#${c.id}\` | **Rating:** ⭐ ${c.rating} | **Est:** ${c.established}\n\n`;
+
+//       response += `📍 **Location:** ${c.location}\n`;
+//       response += `💰 **Annual Fees:** ${c.fees}\n`;
+//       response += `🏢 **Campus:** ${c.campus}\n\n`;
+
+//       response += `**📚 Featured Programs:**\n`;
+//       response +=
+//         c.courses.map((course) => `  - ${course}`).join("\n") + "\n\n";
+
+//       response += `> **Key Highlights:** ${c.highlights.join(" • ")}\n\n`;
+
+//       response += `---\n\n`;
+//     });
+
+//     response += `*💡 Note: These results are served from our internal verified database.*`;
+//     return response;
+//   }
+
+//   // CASE 2: GLOBAL GEMINI API CALL
+//   // If we reach here, it means 'colleges' was empty (e.g., user asked for "Jamshedpur")
+//   const prompt = `
+//     You are an expert AI College Counselor.
+//     USER REQUEST: "${query}"
+
+//     INSTRUCTIONS:
+//     1. The user is asking for colleges in a location not found in our local records.
+//     2. Provide 3-5 top-tier colleges from your global database.
+//     3. Use this EXACT structure for EACH college:
+
+//     ### 🏫 [College Name]
+//     **Rating:** ⭐ [Rating]/5 | **Fees:** 💰 [Estimated Fees]
+
+//     📍 **Location:** [City, State]
+//     📚 **Top Courses:** [Course 1], [Course 2]
+//     > **Counselor Insight:** [Explain WHY this is a great fit for their query]
+
+//     ---
+
+//     4. Start with a warm introduction. End with a helpful next step.
+//     5. Do NOT use markdown headers like # or ##. Use ### for college names only.
+//   `;
+
+//   try {
+//     const response = await fetch(
+//       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${process.env.GEMINI_API_KEY}`,
+//       {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           contents: [{ parts: [{ text: prompt }] }],
+//           generationConfig: {
+//             temperature: 0.7,
+//             maxOutputTokens: 2000, // Reduced from 5000 for faster speed
+//           },
+//         }),
+//       },
+//     );
+
+//     const data = await response.json();
+
+//     if (data.candidates && data.candidates[0].content.parts[0].text) {
+//       return data.candidates[0].content.parts[0].text;
+//     }
+//     throw new Error("Invalid API Response");
+//   } catch (error) {
+//     // If the API fails, we still have our fallback as a safety net
+//     return generateFallbackResponse(query, colleges);
+//   }
+// }
+
 // Updated Fallback to match the visual style
+// function generateFallbackResponse(
+//   query: string,
+//   colleges: typeof mockColleges,
+// ): string {
+//   if (colleges.length === 0) {
+//     // If we have no data and the AI fails, we still provide a structured "Skeleton"
+//     return `I couldn't fetch live data for "${query}" right now, but here are some top-tier options in Jamshedpur you should check:
+
+// 🏫 National Institute of Technology (NIT)
+// 📍 Jamshedpur, Jharkhand | ⭐ 4.5/5 | 💰 ₹2 Lakhs/year
+// 📚 Top Courses: B.Tech CSE, B.Tech Mechanical
+// 🎯 Institute of National Importance
+
+// 🏫 XLRI – Xavier School of Management
+// 📍 Jamshedpur, Jharkhand | ⭐ 4.9/5 | 💰 ₹12 Lakhs/year
+// 📚 Top Courses: MBA, PGDM
+// 🎯 India's Oldest Business School`;
+//   }
+
+//   // If we have mock data, format it with the emojis manually
+//   let response = `Based on our database for "${query}":\n\n`;
+//   colleges.slice(0, 3).forEach((c) => {
+//     response += `🏫 ${c.name}\n`;
+//     response += `📍 ${c.location} | ⭐ ${c.rating}/5 | 💰 ${c.fees}\n`;
+//     response += `📚 Top Courses: ${c.courses.slice(0, 2).join(", ")}\n`;
+//     response += `🎯 ${c.highlights[0]}\n\n`;
+//   });
+//   return response;
+// }
+
 function generateFallbackResponse(
   query: string,
   colleges: typeof mockColleges,
 ): string {
+  // CASE 1: No colleges found in mockData AND AI API failed
   if (colleges.length === 0) {
-    // If we have no data and the AI fails, we still provide a structured "Skeleton"
-    return `I couldn't fetch live data for "${query}" right now, but here are some top-tier options in Jamshedpur you should check:
+    return `I'm sorry, I couldn't find any specific colleges matching "${query}" in our local records, and I'm having trouble connecting to my live database right now. 
 
-🏫 National Institute of Technology (NIT)
-📍 Jamshedpur, Jharkhand | ⭐ 4.5/5 | 💰 ₹2 Lakhs/year
-📚 Top Courses: B.Tech CSE, B.Tech Mechanical
-🎯 Institute of National Importance
-
-🏫 XLRI – Xavier School of Management
-📍 Jamshedpur, Jharkhand | ⭐ 4.9/5 | 💰 ₹12 Lakhs/year
-📚 Top Courses: MBA, PGDM
-🎯 India's Oldest Business School`;
+Please try searching for major cities like "Delhi" or "Noida" to see our local listings, or check your internet connection for a more detailed AI response.`;
   }
 
-  // If we have mock data, format it with the emojis manually
-  let response = `Based on our database for "${query}":\n\n`;
+  // CASE 2: Mock data WAS found (e.g., user searched for "Delhi")
+  let response = `Here are the top results for "${query}" from our local database:\n\n`;
+
   colleges.slice(0, 3).forEach((c) => {
     response += `🏫 ${c.name}\n`;
     response += `📍 ${c.location} | ⭐ ${c.rating}/5 | 💰 ${c.fees}\n`;
     response += `📚 Top Courses: ${c.courses.slice(0, 2).join(", ")}\n`;
     response += `🎯 ${c.highlights[0]}\n\n`;
   });
+
+  response +=
+    "Note: I am currently showing local database results. For a more comprehensive list, please ensure the AI service is active.";
+
   return response;
 }
 
